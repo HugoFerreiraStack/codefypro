@@ -31,7 +31,7 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
-                    SizedBox(width: Get.width / 20),
+              
                     GestureDetector(
                       onTap: () {},
                       child: Text(
@@ -39,7 +39,7 @@ class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
                         style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
-                    SizedBox(width: Get.width / 20),
+           
                     GestureDetector(
                       onTap: () {},
                       child: Text(
