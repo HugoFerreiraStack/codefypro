@@ -1,62 +1,85 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:website/themes/app_colors.dart';
+import '../controllers/header_controller.dart';
 
 class HeaderBar extends StatelessWidget implements PreferredSizeWidget {
-  const HeaderBar({super.key, required this.appBarSize});
-
-  final Size appBarSize;
+  const HeaderBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PreferredSize(
-      preferredSize: preferredSize,
-      child: Container(
-        color: AppColors.headerColor,
-        child: Padding(
-          padding: EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Image.network(
-                'https://storage.googleapis.com/cms-storage-bucket/6e19fee6b47b36ca613f.png',
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Início',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ),
-              
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Aplicativos',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ),
-           
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Contato',
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+if (!Get.isRegistered<HeaderController>()) {
+  Get.put(HeaderController());
+}
+final HeaderController headerController = Get.find();
+
+    return AppBar(
+      backgroundColor: Colors.black.withValues(alpha: 50),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          GestureDetector(
+            onTap: () => Get.offAllNamed('home'),
+            child: Image.asset(
+              'assets/images/logo.png',
+              width: 100,
+              height: 50,
+            ),
           ),
-        ),
+          _buildNavItem('Início', 'home'),
+          _buildNavItem('Aplicativos', 'apps'),
+          // _buildNavItem('Parcerias', 'partners'),
+          _buildNavItem('Suporte', 'support'),
+          // const SizedBox(width: 20),
+          // _buildLanguageSelector(headerController),
+        ],
       ),
     );
   }
 
+ Widget _buildNavItem(String title, String route) {
+  bool isActive = Get.currentRoute == route;
+
+  return GestureDetector(
+    onTap: () {
+      if (isActive) {
+        Scrollable.ensureVisible(Get.context!);
+      } else {
+        Get.offNamed(route);
+      }
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: isActive ? Colors.blueGrey : Colors.white, // Altera a cor do texto
+          fontSize: 18,
+          fontWeight: isActive ? FontWeight.bold : FontWeight.normal, // Deixa o texto negrito na página ativa
+        ),
+      ),
+    ),
+  );
+}
+
+
+  // Widget _buildLanguageSelector(HeaderController controller) {
+  //   return DropdownButton<String>(
+  //     value: controller.selectedLanguage.value,
+  //     icon: const Icon(Icons.language, color: Colors.white),
+  //     dropdownColor: Colors.black,
+  //     onChanged: (String? newValue) {
+  //       if (newValue != null) {
+  //         controller.changeLanguage(newValue);
+  //       }
+  //     },
+  //     items: const [
+  //       DropdownMenuItem(value: 'pt', child: Text('🇧🇷 PT-BR')),
+  //       DropdownMenuItem(value: 'en', child: Text('🇺🇸 EN')),
+  //       DropdownMenuItem(value: 'es', child: Text('🇪🇸 ES')),
+  //     ],
+  //   );
+  // }
+
   @override
-  Size get preferredSize => appBarSize;
+  Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }
