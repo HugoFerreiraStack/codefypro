@@ -26,7 +26,7 @@ final HeaderController headerController = Get.find();
             ),
           ),
           _buildNavItem('Início', 'home'),
-          _buildNavItem('Aplicativos', 'apps'),
+        //  _buildNavItem('Aplicativos', 'apps'),
           // _buildNavItem('Parcerias', 'partners'),
           _buildNavItem('Suporte', 'support'),
           // const SizedBox(width: 20),

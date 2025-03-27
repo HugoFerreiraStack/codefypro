@@ -1,34 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:website/home/controllers/home_controller.dart';
 import 'package:website/home/widgets/header.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      appBar: const HeaderBar(),
-      body: Column(
-        children: [
-          Container(
-            width: double.infinity,
-            height: 300,
-            color: Colors.black,
-             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Desenvolvimento de Software', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 28),),
-              Text('Crie seu produto de forma única!',style: TextStyle(color: Colors.white60, fontSize: 28)),
-            ],
-          ),),
-          Row(children: [
-            Container(
-            height: 300,
-            color: Colors.black,
-            )
-          ],)
-        ],
-      )
+    return Scaffold(
+      appBar: HeaderBar(),
+      body: Obx(() => PageView.builder(
+            controller: controller.pageController,
+            itemCount: controller.images.length,
+            onPageChanged: (index) {
+              controller.currentImage = index;
+            },
+            itemBuilder: (context, index) {
+              return Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(controller.images[index]),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              );
+            },
+          )),
     );
   }
 }
